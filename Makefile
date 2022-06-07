@@ -25,10 +25,10 @@ src/%.o: src/%.c src/*.h
 src/%.o: src/%.cpp src/*.hpp src/*.h
 	$(CXX) $(_CFLAGS) -std=gnu++11 -c -o $@ $<
 
-wfb_rx: src/rx.o src/radiotap.o src/fec.o src/wifibroadcast.o
+wfb_rx: src/rx.o src/radiotap.o src/fec.o src/led.o src/wifibroadcast.o
 	$(CXX) -o $@ $^ $(_LDFLAGS)
 
-wfb_tx: src/tx.o src/fec.o src/wifibroadcast.o
+wfb_tx: src/tx.o src/fec.o src/led.o src/wifibroadcast.o
 	$(CXX) -o $@ $^ $(_LDFLAGS)
 
 wfb_keygen: src/keygen.o

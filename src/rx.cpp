@@ -37,6 +37,7 @@ extern "C"
 {
 #include "ieee80211_radiotap.h"
 #include "fec.h"
+#include "led.h"
 }
 
 #include <string>
@@ -109,6 +110,7 @@ Receiver::~Receiver()
 
 void Receiver::loop_iter(void)
 {
+    static int led = 0;
     for(;;) // loop while incoming queue is not empty
     {
         struct pcap_pkthdr hdr;
@@ -117,6 +119,13 @@ void Receiver::loop_iter(void)
         if (pkt == NULL) {
             break;
         }
+
+        if(led == 0){
+            led = 1;
+        } else {
+            led = 0;
+        }
+        led_m0054_blue(led);
 
         int pktlen = hdr.caplen;
         // int pkt_rate = 0

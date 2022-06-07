@@ -35,6 +35,7 @@
 extern "C"
 {
 #include "fec.h"
+#include "led.h"
 }
 
 #include "wifibroadcast.hpp"
@@ -165,6 +166,7 @@ PcapTransmitter::~PcapTransmitter()
 
 void Transmitter::send_block_fragment(size_t packet_size)
 {
+    static int led = 0;
     uint8_t ciphertext[MAX_FORWARDER_PACKET_SIZE];
     wblock_hdr_t *block_hdr = (wblock_hdr_t*)ciphertext;
     long long unsigned int ciphertext_len;
@@ -179,6 +181,13 @@ void Transmitter::send_block_fragment(size_t packet_size)
                                          block[fragment_idx], packet_size,
                                          (uint8_t*)block_hdr, sizeof(wblock_hdr_t),
                                          NULL, (uint8_t*)(&(block_hdr->nonce)), session_key);
+
+    if(led == 0){
+        led = 1;
+    } else {
+        led = 0;
+    }
+    led_m0054_blue(led);
 
     inject_packet(ciphertext, sizeof(wblock_hdr_t) + ciphertext_len);
 }
