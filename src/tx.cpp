@@ -187,7 +187,7 @@ void Transmitter::send_block_fragment(size_t packet_size)
     } else {
         led = 0;
     }
-    led_m0054_blue(led);
+    //led_m0054_blue(led);
 
     inject_packet(ciphertext, sizeof(wblock_hdr_t) + ciphertext_len);
 }
